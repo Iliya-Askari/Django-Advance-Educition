@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager,AbstractBaseUser,PermissionsMixin)
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -65,4 +67,9 @@ class Profile(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        self.user.email
+        return self.user.email
+
+@receiver(post_save,sender=User)
+def save_profile(sender,created,instance,**kwargs):
+    if created:
+        Profile.objects.create(user=instance)
