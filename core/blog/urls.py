@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import IndexView
+from . import views
 from django.views.generic import TemplateView
 urlpatterns = [
-    path('', IndexView,name='fbv-test'),
-    path("about/", TemplateView.as_view(template_name="index.html"))
+    path('', views.indexView,name='fbv-test'),
+    # path("about/", TemplateView.as_view(template_name="index.html"))
+    path('cbv-index',views.IndexView.as_view(),name="class-base-view")
 ]
