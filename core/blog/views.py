@@ -47,10 +47,11 @@ class RedirectTodigi(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
     
 class Postlist(ListView):
+    queryset = Post.objects.filter(status=False).order_by("-id")
     # model = Post
-    queryset = Post.objects.filter(status=True)
     context_object_name = 'posts'
-
+    paginate_by = 2
+    # ordering = "-published_date"
     # def get_queryset(self):
     #     posts = Post.objects.filter(status=True)
     #     return posts
