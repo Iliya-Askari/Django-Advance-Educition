@@ -1,8 +1,12 @@
 from typing import Any
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.shortcuts import render , get_object_or_404
+from django.views.generic.base import TemplateView , RedirectView
 from .models import Post
 # Create your views here.
+
+
+# Function Base View Show a template 
+'''
 def indexView(request):
     """
     a function based view to show index page
@@ -10,6 +14,13 @@ def indexView(request):
     name = 'ali'
     context = {'name':name}
     return render(request, 'index.html', context)
+'''
+
+'''
+from django.shortcuts import redirect
+def redirectTodigi(request):
+    return redirect('https://digikala.com/')
+'''    
 
 class IndexView(TemplateView):
     """
@@ -23,4 +34,11 @@ class IndexView(TemplateView):
         context ["name"] = 'ali'
         context ['posts'] = Post.objects.all()
         return context
-    
+
+class RedirectTodigi(RedirectView):
+    url = 'https://digikala.com/'
+
+    def get_redirect_url(self, *args , **kwargs):
+        post = get_object_or_404(Post, pk=kwargs["pk"])
+        print(post)
+        return super().get_redirect_url(*args, **kwargs)
