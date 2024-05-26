@@ -12,6 +12,7 @@ urlpatterns = [
     # cbv 
     # path("about/", TemplateView.as_view(template_name="index.html")),
     path('cbv-index',views.IndexView.as_view(),name="cbv-index"),
+    path("post/",views.Postlist.as_view(),name="post-list"),
     path("go-to-digi/<int:pk>/",views.RedirectTodigi.as_view(),name="redirect-to-digi"),
     
 ]

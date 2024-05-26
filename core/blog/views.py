@@ -1,7 +1,10 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render , get_object_or_404
 from django.views.generic.base import TemplateView , RedirectView
 from .models import Post
+from django.utils import timezone
+from django.views.generic.list import ListView
 # Create your views here.
 
 
@@ -42,3 +45,12 @@ class RedirectTodigi(RedirectView):
         post = get_object_or_404(Post, pk=kwargs["pk"])
         print(post)
         return super().get_redirect_url(*args, **kwargs)
+    
+class Postlist(ListView):
+    # model = Post
+    queryset = Post.objects.filter(status=True)
+    context_object_name = 'posts'
+
+    # def get_queryset(self):
+    #     posts = Post.objects.filter(status=True)
+    #     return posts
