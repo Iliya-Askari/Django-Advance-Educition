@@ -1,6 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render , get_object_or_404
 from .models import Post
-from django.views.generic import ListView , DetailView , TemplateView , RedirectView
+from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView
+from .forms import PostForm
 # Create your views here.
 
 
@@ -55,3 +57,11 @@ class Postlistview(ListView):
 class PostDetailview(DetailView):
     model = Post
     
+class PostCreate(FormView):
+    template_name = 'contact.html'
+    form_class = PostForm
+    success_url = '/blog/post/' 
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
