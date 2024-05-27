@@ -1,10 +1,6 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from django.shortcuts import render , get_object_or_404
-from django.views.generic.base import TemplateView , RedirectView
 from .models import Post
-from django.utils import timezone
-from django.views.generic.list import ListView
+from django.views.generic import ListView , DetailView , TemplateView , RedirectView
 # Create your views here.
 
 
@@ -46,8 +42,8 @@ class RedirectTodigi(RedirectView):
         print(post)
         return super().get_redirect_url(*args, **kwargs)
     
-class Postlist(ListView):
-    queryset = Post.objects.filter(status=False).order_by("-id")
+class Postlistview(ListView):
+    queryset = Post.objects.filter(status=True).order_by("-id")
     # model = Post
     context_object_name = 'posts'
     paginate_by = 2
@@ -55,3 +51,7 @@ class Postlist(ListView):
     # def get_queryset(self):
     #     posts = Post.objects.filter(status=True)
     #     return posts
+
+class PostDetailview(DetailView):
+    model = Post
+    
