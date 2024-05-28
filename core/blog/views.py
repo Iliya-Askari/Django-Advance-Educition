@@ -72,6 +72,10 @@ class PostCreate(FormView):
 class PostCreate(CreateView): 
     # template_name = 'contact.html'
     model = Post
-    # fields = ['author','title','content','status','category','published_date']
-    form_class = PostForm
+    fields = ['title','content','status','category','published_date']
+    # form_class = PostForm
     success_url = '/blog/post/'
+
+    def form_valid(self , form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
