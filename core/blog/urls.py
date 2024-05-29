@@ -15,5 +15,6 @@ urlpatterns = [
     # path("go-to-digi/<int:pk>/",views.RedirectTodigi.as_view(),name="redirect-to-digi"),
     path("post/",views.Postlistview.as_view(),name="post-list"),
     path("post/<int:pk>/",views.PostDetailview.as_view(),name= "post-detail"),
-    path("post/create/",views.PostCreate.as_view(),name="post-create")
+    path("post/create/",views.PostCreateview.as_view(),name="post-create"),
+    path('post/<int:pk>/edit',views.PostEditview.as_view(),name='post-edit')
 ]

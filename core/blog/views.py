@@ -2,10 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render , get_object_or_404 
 from django.urls import reverse
 from .models import Post
-from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView , CreateView 
+from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView , CreateView , UpdateView , DeleteView
 from .forms import PostForm
 # Create your views here.
-
 
 # Function Base View Show a template 
 '''
@@ -59,7 +58,7 @@ class PostDetailview(DetailView):
     model = Post
     
 ''' Written based on form views
-class PostCreate(FormView): 
+class PostCreateview(FormView): 
     template_name = 'contact.html'
     form_class = PostForm
     success_url = '/blog/post/' 
@@ -69,7 +68,7 @@ class PostCreate(FormView):
         return super().form_valid(form)
 '''
 
-class PostCreate(CreateView): 
+class PostCreateview(CreateView): 
     # template_name = 'contact.html'
     model = Post
     fields = ['title','content','status','category','published_date']
@@ -79,3 +78,8 @@ class PostCreate(CreateView):
     def form_valid(self , form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class PostEditview(UpdateView):
+    model = Post
+    form_class = PostForm
+    success_url = '/blog/post/'
