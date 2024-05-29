@@ -83,3 +83,8 @@ class PostEditview(UpdateView):
     model = Post
     form_class = PostForm
     success_url = '/blog/post/'
+
+
+class PostDeleteview(DeleteView):
+    model = Post
+    success_url = '/blog/post/'
