@@ -1,8 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render , get_object_or_404 
 from django.urls import reverse
+from django.http import HttpResponseForbidden , HttpResponseRedirect
+from django.contrib import messages
 from .models import Post
 from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView , CreateView , UpdateView , DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
 # Create your views here.
 
@@ -68,7 +71,7 @@ class PostCreateview(FormView):
         return super().form_valid(form)
 '''
 
-class PostCreateview(CreateView): 
+class PostCreateview(LoginRequiredMixin,CreateView): 
     # template_name = 'contact.html'
     model = Post
     fields = ['title','content','status','category','published_date']
@@ -79,12 +82,18 @@ class PostCreateview(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class PostEditview(UpdateView):
+class PostEditview(LoginRequiredMixin,UpdateView):
     model = Post
     form_class = PostForm
     success_url = '/blog/post/'
 
-
-class PostDeleteview(DeleteView):
+class PostDeleteview(LoginRequiredMixin,DeleteView):
     model = Post
     success_url = '/blog/post/'
+    # def get(self, request, *args, **kwargs):
+    #     # بررسی کنید که آیا کاربر سوپر یوزر است یا نه
+    #     if not request.user.is_superuser:
+    #         return HttpResponseForbidden("You do not have permission to view this page.")
+        
+    #     # اگر کاربر سوپر یوزر است، ادامه دهید و صفحه را نمایش دهید
+    #     return render(request, 'post_confirm_delete.html')
