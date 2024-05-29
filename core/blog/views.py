@@ -1,8 +1,5 @@
-from django.http import HttpResponse
 from django.shortcuts import render , get_object_or_404 
 from django.urls import reverse
-from django.http import HttpResponseForbidden , HttpResponseRedirect
-from django.contrib import messages
 from .models import Post
 from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView , CreateView , UpdateView , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -40,6 +37,9 @@ class IndexView(TemplateView):
         return context
 
 class RedirectTodigi(RedirectView):
+    """
+    a class based view to show redirect coustoum page
+    """
     url = 'https://digikala.com/'
 
     def get_redirect_url(self, *args , **kwargs):
@@ -48,6 +48,9 @@ class RedirectTodigi(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
     
 class Postlistview(ListView):
+    """
+    a class based view to show post page
+    """
     queryset = Post.objects.filter(status=True).order_by("-id")
     # model = Post
     context_object_name = 'posts'
@@ -58,6 +61,9 @@ class Postlistview(ListView):
     #     return posts
 
 class PostDetailview(DetailView):
+    """
+    a class based view to detail post
+    """
     model = Post
     
 ''' Written based on form views
@@ -72,6 +78,9 @@ class PostCreateview(FormView):
 '''
 
 class PostCreateview(LoginRequiredMixin,CreateView): 
+    """
+    a class based view to crerate post But if the user was logged in
+    """
     # template_name = 'contact.html'
     model = Post
     fields = ['title','content','status','category','published_date']
@@ -83,11 +92,17 @@ class PostCreateview(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
 class PostEditview(LoginRequiredMixin,UpdateView):
+    """
+    a class based view to Edit(update) post But if the user was logged in
+    """
     model = Post
     form_class = PostForm
     success_url = '/blog/post/'
 
 class PostDeleteview(LoginRequiredMixin,DeleteView):
+    """
+    a class based view to delete post But if the user was logged in and superuser
+    """
     model = Post
     success_url = '/blog/post/'
     # def get(self, request, *args, **kwargs):
