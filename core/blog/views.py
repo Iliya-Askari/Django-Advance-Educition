@@ -4,9 +4,7 @@ from .models import Post
 from django.views.generic import ListView , DetailView , TemplateView , RedirectView , FormView , CreateView , UpdateView , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+
 # Create your views here.
 
 # Function Base View Show a template 
@@ -117,6 +115,3 @@ class PostDeleteview(LoginRequiredMixin,DeleteView):
     #     # اگر کاربر سوپر یوزر است، ادامه دهید و صفحه را نمایش دهید
     #     return render(request, 'post_confirm_delete.html')
 
-@api_view()
-def api_post_list_view(request):
-    return Response({"name":"ali"})
