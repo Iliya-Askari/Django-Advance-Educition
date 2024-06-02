@@ -13,9 +13,11 @@ urlpatterns = [
     # path("about/", TemplateView.as_view(template_name="index.html")),
     # path('cbv-index',views.IndexView.as_view(),name="cbv-index"),
     # path("go-to-digi/<int:pk>/",views.RedirectTodigi.as_view(),name="redirect-to-digi"),
-    path("post/",views.Postlistview.as_view(),name="post-list"),
-    path("post/<int:pk>/",views.PostDetailview.as_view(),name= "post-detail"),
-    path("post/create/",views.PostCreateview.as_view(),name="post-create"),
-    path('post/<int:pk>/edit',views.PostEditview.as_view(),name='post-edit'),
-    path('post/<int:pk>/delete',views.PostDeleteview.as_view(),name='post-delete')
+        #post view
+    # path("post/",views.Postlistview.as_view(),name="post-list"),
+    # path("post/<int:pk>/",views.PostDetailview.as_view(),name= "post-detail"),
+    # path("post/create/",views.PostCreateview.as_view(),name="post-create"),
+    # path('post/<int:pk>/edit',views.PostEditview.as_view(),name='post-edit'),
+    # path('post/<int:pk>/delete',views.PostDeleteview.as_view(),name='post-delete'),
+    path("post/",views.api_post_list_view,name="api-post-list")
 ]
