@@ -22,7 +22,7 @@ def post_list(request):
         return Response(serializer.data)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT','DELETE'])
 def post_detail(request,id):
     '''
     show a detail of posts for api access
@@ -37,3 +37,7 @@ def post_detail(request,id):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    elif request.method == 'DELETE':
+        post = get_object_or_404(Post,pk=id)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
