@@ -22,11 +22,18 @@ def post_list(request):
         return Response(serializer.data)
 
 
-@api_view()
+@api_view(['GET', 'PUT'])
 def post_detail(request,id):
     '''
     show a detail of posts for api access
     '''
-    post = get_object_or_404(Post,pk=id)
-    serializer = PostSerializer(post)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        post = get_object_or_404(Post,pk=id)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+    if request.method == 'PUT':
+        post = get_object_or_404(Post,pk=id)
+        serializer = PostSerializer(post,data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
