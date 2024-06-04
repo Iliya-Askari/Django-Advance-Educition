@@ -6,14 +6,21 @@ from blog.models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
-@api_view()
+@api_view(['GET', 'POST'])
 def post_list(request):
     '''
     show a list of posts for api access
     '''
-    posts = Post.objects.filter(status=True)
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        posts = Post.objects.filter(status=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 @api_view()
 def post_detail(request,id):
