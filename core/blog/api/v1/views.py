@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view , permission_classes
 from rest_framework.permissions import IsAuthenticated , IsAdminUser , IsAuthenticatedOrReadOnly
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import PostSerializer
 from blog.models import Post
@@ -8,7 +9,7 @@ from django.shortcuts import get_object_or_404
 
 
 
-
+"""
 @api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
 @permission_classes([IsAuthenticatedOrReadOnly])
@@ -24,6 +25,28 @@ def post_list(request):
     if request.method == 'POST':
         '''
         create of posts for api access
+        '''
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+"""    
+
+class PostList(APIView):
+    '''
+    getting a list of posts and creating posts
+    '''
+    def get(self,request):
+        '''
+        show in posts withs CBV 
+        '''
+        posts = Post.objects.filter(status=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        '''
+        create in posts withs CBV 
         '''
         serializer = PostSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
