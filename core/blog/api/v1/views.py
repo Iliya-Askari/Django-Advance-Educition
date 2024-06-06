@@ -10,8 +10,8 @@ from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-# @permission_classes([IsAuthenticatedOrReadOnly])
+# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticatedOrReadOnly])
 # @permission_classes([IsAdminUser])
 def post_list(request):
     '''
@@ -32,6 +32,7 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT','DELETE'])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def post_detail(request,id):
     '''
     show a detail of posts for api access
