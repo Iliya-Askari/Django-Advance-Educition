@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view , permission_classes
 from rest_framework.permissions import IsAuthenticated , IsAdminUser , IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,6 +9,7 @@ from django.shortcuts import get_object_or_404
 
 
 """
+from rest_framework.decorators import api_view , permission_classes
 @api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
 @permission_classes([IsAuthenticatedOrReadOnly])
@@ -31,29 +31,7 @@ def post_list(request):
         serializer.save()
         return Response(serializer.data)
 """    
-
-class PostList(APIView):
-    '''
-    getting a list of posts and creating posts
-    '''
-    def get(self,request):
-        '''
-        show in posts withs CBV 
-        '''
-        posts = Post.objects.filter(status=True)
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        '''
-        create in posts withs CBV 
-        '''
-        serializer = PostSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-
+"""
 @api_view(['GET', 'PUT','DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def post_detail(request,id):
@@ -79,6 +57,62 @@ def post_detail(request,id):
     elif request.method == 'DELETE':
         '''
         delete of posts for api access
+        '''
+        post = get_object_or_404(Post,pk=id)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+"""
+class PostList(APIView):
+    '''
+    getting a list of posts and creating posts
+    '''
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerializer
+    def get(self,request):
+        '''
+        show in posts withs CBV 
+        '''
+        posts = Post.objects.filter(status=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        '''
+        create in posts withs CBV 
+        '''
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class PostDetail(APIView):
+    '''
+    getting a detail of posts and creating posts
+    '''
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerializer
+
+    def get(self, request,id):
+        '''
+        detail in posts withs CBV 
+        '''
+        post = get_object_or_404(Post,pk=id)
+        serializer = self.serializer_class(post)
+        return Response(serializer.data)
+    
+    def put(self,request,id):
+        '''
+        Update in posts withs CBV 
+        '''
+        post = get_object_or_404(Post,pk=id)
+        serializer = self.serializer_class(post,data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self,request,id):
+        '''
+        delete in posts withs CBV 
         '''
         post = get_object_or_404(Post,pk=id)
         post.delete()
