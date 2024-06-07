@@ -5,7 +5,7 @@ from .serializers import PostSerializer
 from blog.models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import GenericAPIView , ListCreateAPIView
+from rest_framework.generics import GenericAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
 # from rest_framework import mixins
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
 
@@ -128,20 +128,11 @@ class PostList(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.filter(status=True)
     
-class PostDetail(GenericAPIView , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin):
+class PostDetail(RetrieveUpdateDestroyAPIView):
     '''
-    getting a detail of posts and update posts and delete posts with genric api view mixin
+    getting a detail of posts and update posts and delete posts with genric api view (RetrieveUpdateDestroyAPIView)
 
     '''
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
     permission_classes=[IsAuthenticatedOrReadOnly]
-
-    def get(self,request,*args, **kwargs):
-        return self.retrieve(request,*args, **kwargs)
-    
-    def put(self,request,*args, **kwargs):
-        return self.update(request,*args, **kwargs)
-    
-    def delete(self,request,*args, **kwargs):
-        return self.destroy(request,*args, **kwargs)
