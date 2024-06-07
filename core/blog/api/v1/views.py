@@ -5,7 +5,7 @@ from .serializers import PostSerializer
 from blog.models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView , ListCreateAPIView
 # from rest_framework import mixins
 from rest_framework.mixins import ListModelMixin , CreateModelMixin
 
@@ -86,22 +86,6 @@ def post_detail(request,id):
         serializer.save()
         return Response(serializer.data)
 """
-
-
-class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
-    '''
-    getting list of and create post with generic api view and mixin methods
-    '''
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-    queryset = Post.objects.filter(status=True)
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-    def post(self , request, *args, **kwargs):
-        return self.create(request , *args , **kwargs)
-    
-
 class PostDetail(APIView):
     '''
     getting a detail of posts and creating posts
@@ -134,3 +118,14 @@ class PostDetail(APIView):
         post = get_object_or_404(Post,pk=id)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class PostList(ListCreateAPIView):
+    '''
+    getting list of and create post with genric-api-view (ListCreateAPIView)
+    '''
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Post.objects.filter(status=True)
+    
+
+
