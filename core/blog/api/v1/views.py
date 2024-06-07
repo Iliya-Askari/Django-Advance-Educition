@@ -5,12 +5,14 @@ from .serializers import PostSerializer
 from blog.models import Post
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework.generics import GenericAPIView
+# from rest_framework import mixins
+from rest_framework.mixins import ListModelMixin , CreateModelMixin
 
 
-
-"""
+"""@api_view(['GET', 'POST'])
 from rest_framework.decorators import api_view , permission_classes
-@api_view(['GET', 'POST'])
+
 # @permission_classes([IsAuthenticated])
 @permission_classes([IsAuthenticatedOrReadOnly])
 # @permission_classes([IsAdminUser])
@@ -31,8 +33,7 @@ def post_list(request):
         serializer.save()
         return Response(serializer.data)
 """    
-"""
-@api_view(['GET', 'PUT','DELETE'])
+"""@api_view(['GET', 'PUT','DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def post_detail(request,id):
     '''
@@ -62,7 +63,7 @@ def post_detail(request,id):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
-class PostList(APIView):
+"""class PostList(APIView):
     '''
     getting a list of posts and creating posts
     '''
@@ -84,6 +85,22 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+"""
+
+
+class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
+    '''
+    getting list of and create post with generic api view and mixin methods
+    '''
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Post.objects.filter(status=True)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    def post(self , request, *args, **kwargs):
+        return self.create(request , *args , **kwargs)
+    
 
 class PostDetail(APIView):
     '''
