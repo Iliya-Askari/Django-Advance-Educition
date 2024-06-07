@@ -7,7 +7,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView , ListCreateAPIView
 # from rest_framework import mixins
-from rest_framework.mixins import ListModelMixin , CreateModelMixin
+from rest_framework.mixins import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
 
 
 """@api_view(['GET', 'POST'])
@@ -86,9 +86,9 @@ def post_detail(request,id):
         serializer.save()
         return Response(serializer.data)
 """
-class PostDetail(APIView):
+"""class PostDetail(APIView):
     '''
-    getting a detail of posts and creating posts
+    getting a detail of posts
     '''
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
@@ -118,14 +118,30 @@ class PostDetail(APIView):
         post = get_object_or_404(Post,pk=id)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+"""
 
 class PostList(ListCreateAPIView):
     '''
-    getting list of and create post with genric-api-view (ListCreateAPIView)
+    getting list of posts and createing post with genric-api-view (ListCreateAPIView)
     '''
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.filter(status=True)
     
+class PostDetail(GenericAPIView , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin):
+    '''
+    getting a detail of posts and update posts and delete posts with genric api view mixin
 
+    '''
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
+    permission_classes=[IsAuthenticatedOrReadOnly]
 
+    def get(self,request,*args, **kwargs):
+        return self.retrieve(request,*args, **kwargs)
+    
+    def put(self,request,*args, **kwargs):
+        return self.update(request,*args, **kwargs)
+    
+    def delete(self,request,*args, **kwargs):
+        return self.destroy(request,*args, **kwargs)
