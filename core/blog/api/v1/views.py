@@ -213,7 +213,7 @@ class PostViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
 # Examole for model view set in CBV 
-class PostViewset(viewsets.ModelViewSet):
+class PostModelViewset(viewsets.ModelViewSet):
     '''
     This class performs all related operations for posts based on view set model without defining the function
     '''
