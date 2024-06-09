@@ -176,7 +176,7 @@ def post_detail(request,id):
 """
 
 # Examole for view set in CBV
-class PostViewset(viewsets.ViewSet):
+"""class PostViewset(viewsets.ViewSet):
     '''
     This class performs all related operations for posts based on view set
     '''
@@ -211,6 +211,7 @@ class PostViewset(viewsets.ViewSet):
         post_object = get_object_or_404(self.queryset, pk=pk)
         serializer = self.serializer_class(post_object)
         return Response(serializer.data)
+"""
 
 # Examole for model view set in CBV 
 class PostModelViewset(viewsets.ModelViewSet):
