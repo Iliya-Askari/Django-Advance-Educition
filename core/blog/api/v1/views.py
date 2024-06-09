@@ -1,8 +1,8 @@
 from rest_framework.permissions import IsAuthenticated , IsAdminUser , IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PostSerializer
-from blog.models import Post
+from .serializers import PostSerializer , CtegorySerializer
+from blog.models import Post , Category
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView , ListCreateAPIView , RetrieveUpdateDestroyAPIView
@@ -221,3 +221,7 @@ class PostModelViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
+
+class CategoryModelViewset(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CtegorySerializer
