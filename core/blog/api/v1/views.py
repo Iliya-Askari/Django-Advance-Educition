@@ -124,6 +124,38 @@ def post_detail(request,id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
+"""class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
+    '''
+    getting list of and create post with generic api view and mixin
+    '''
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Post.objects.filter(status=True)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self , request, *args, **kwargs):
+        return self.create(request , *args , **kwargs)
+"""
+
+"""class PostDetail(GenericAPIView , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin):
+    '''
+    getting a detail of posts and update posts and delete posts with genric api view mixin
+    '''
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
+    permission_classes=[IsAuthenticatedOrReadOnly]
+
+    def get(self,request,*args, **kwargs):
+        return self.retrieve(request,*args, **kwargs)
+    
+    def put(self,request,*args, **kwargs):
+        return self.update(request,*args, **kwargs)
+    
+    def delete(self,request,*args, **kwargs):
+        return self.destroy(request,*args, **kwargs)"""
+
 """class PostList(ListCreateAPIView):
     '''
     getting list of posts and createing post with genric-api-view (ListCreateAPIView)
