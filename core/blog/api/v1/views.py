@@ -177,6 +177,9 @@ def post_detail(request,id):
 
 # Examole for view set in CBV
 class PostViewset(viewsets.ViewSet):
+    '''
+    This class performs all related operations for posts based on view set
+    '''
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
@@ -208,3 +211,12 @@ class PostViewset(viewsets.ViewSet):
         post_object = get_object_or_404(self.queryset, pk=pk)
         serializer = self.serializer_class(post_object)
         return Response(serializer.data)
+
+# Examole for model view set in CBV 
+class PostViewset(viewsets.ModelViewSet):
+    '''
+    This class performs all related operations for posts based on view set model without defining the function
+    '''
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Post.objects.filter(status=True)
+    serializer_class = PostSerializer
