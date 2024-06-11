@@ -12,10 +12,14 @@ class PostSerializer(serializers.ModelSerializer):
     # content = serializers.CharField(read_only=True)
     snippet = serializers.ReadOnlyField(source='get_snippet')
     relaitive_url = serializers.URLField(source="get_absolute_api_url")
+    absolute_url = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ['id','author', 'title', 'content','snippet', 'status','relaitive_url', 'created_date', 'published_date']
+        fields = ['id','author', 'title', 'content','snippet', 'status','relaitive_url', 'absolute_url','created_date', 'published_date']
         read_only_fields = ['content',]
+    def get_absolute_url(self,obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.id)
 
 class CtegorySerializer(serializers.ModelSerializer):
     class Meta:
