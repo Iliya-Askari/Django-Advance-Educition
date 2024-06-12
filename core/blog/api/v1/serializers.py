@@ -40,6 +40,14 @@ class PostSerializer(serializers.ModelSerializer):
         '''
         With this method, you can change the method of displaying data in different parts
         '''
+        request = self.context.get('request','created_date')
         rep = super().to_representation(instance)
+
+        if request.parser_context.get('kwargs').get('pk'):
+            rep.pop('snippet',None)
+            rep.pop('absolute_url',None)
+            rep.pop('created_date',None)
+        else :
+            rep.pop('content',None)
         rep ['category'] = CtegorySerializer(instance.category).data
         return rep
