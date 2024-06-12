@@ -9,6 +9,7 @@ from rest_framework.generics import GenericAPIView , ListCreateAPIView , Retriev
 # from rest_framework import mixins
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
 from rest_framework import viewsets
+from .permissions import IsOwnerOrReadOnly
 
 
 """@api_view(['GET', 'POST'])
@@ -218,7 +219,7 @@ class PostModelViewset(viewsets.ModelViewSet):
     '''
     This class performs all related operations for posts based on view set model without defining the function
     '''
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
 
