@@ -26,7 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
     snippet = serializers.ReadOnlyField(source='get_snippet')
     class Meta:
         model = Post
-        fields = ['id','author', 'title', 'category','content','snippet', 'status', 'absolute_url','created_date', 'published_date']
+        fields = ['id','author', 'title','image' ,'category','content','snippet', 'status', 'absolute_url','created_date', 'published_date']
         # read_only_fields = ['content',]
 
     def get_absolute_url(self,obj):
