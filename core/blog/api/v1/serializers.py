@@ -23,6 +23,7 @@ class PostSerializer(serializers.ModelSerializer):
     # relaitive_url = serializers.URLField(source="get_absolute_api_url")
     # category = serializers.SlugRelatedField(many=False, slug_field='name',queryset=Category.objects.all())
     author = serializers.SlugRelatedField(many=False, slug_field='first_name', read_only=True)
+    # author = serializers.SlugRelatedField(many=False, slug_field='user__email', read_only=True)
 
     absolute_url = serializers.SerializerMethodField()
     snippet = serializers.ReadOnlyField(source='get_snippet')

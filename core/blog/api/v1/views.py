@@ -10,6 +10,10 @@ from rest_framework.generics import GenericAPIView , ListCreateAPIView , Retriev
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
 from rest_framework import viewsets
 from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend 
+from rest_framework.filters import SearchFilter , OrderingFilter 
+from .pagaitions import DefaultPagination
+
 
 
 """@api_view(['GET', 'POST'])
@@ -222,7 +226,12 @@ class PostModelViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
-
+    pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_fields = ['category','author']
+    search_fields = ['title','content']
+    ordering_fields = ['published_date']
+    
 class CategoryModelViewset(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CtegorySerializer
