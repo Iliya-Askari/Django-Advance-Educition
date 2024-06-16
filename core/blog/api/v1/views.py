@@ -15,7 +15,7 @@ from rest_framework.filters import SearchFilter , OrderingFilter
 from .pagaitions import DefaultPagination
 
 
-
+# Fuction base view
 """@api_view(['GET', 'POST'])
 from rest_framework.decorators import api_view , permission_classes
 
@@ -71,6 +71,7 @@ def post_detail(request,id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
+# class base view with APIView
 """class PostList(APIView):
     '''
     getting a list of posts and creating posts
@@ -129,6 +130,7 @@ def post_detail(request,id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
+# class base view with GenericAPIView & MixinView
 """class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     '''
     getting list of and create post with generic api view and mixin
@@ -161,6 +163,7 @@ def post_detail(request,id):
     def delete(self,request,*args, **kwargs):
         return self.destroy(request,*args, **kwargs)"""
 
+# class base view with genericview
 """class PostList(ListCreateAPIView):
     '''
     getting list of posts and createing post with genric-api-view (ListCreateAPIView)
