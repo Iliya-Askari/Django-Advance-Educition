@@ -9,6 +9,7 @@ urlpatterns = [
     # regestrations
     path('registrations/',views.RegistrationsApiView.as_view(),name='registrations'),
     path('token/login/',views.CustomObtainAuthToken.as_view(),name='token-login'),
+    path('token/logout/',views.CoutomDiscardToken.as_view(),name='token-logout')
     # login token
     # login jwt
     # change password
