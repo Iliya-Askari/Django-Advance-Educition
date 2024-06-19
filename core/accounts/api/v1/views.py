@@ -25,8 +25,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
     serializer_class = CoustoumAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
+        serializer = self.serializer_class(data=request.data,context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
