@@ -1,10 +1,11 @@
+from typing import Any, Dict
 from rest_framework import serializers
 from accounts.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
-
+from rest_framework_simplejwt.serializers import TokenObtainSerializer , TokenObtainPairSerializer
 class RegistrationsSerializer(serializers.ModelSerializer):
     '''
     add fields to password2 in registration
@@ -70,3 +71,9 @@ class CoustoumAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+    
+class CoustoumTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
+        validated_data = super().validate(attrs)
+        validated_data['email'] = self.user.email
+        return validated_data

@@ -226,7 +226,7 @@ class PostModelViewset(viewsets.ModelViewSet):
     '''
     This class performs all related operations for posts based on view set model without defining the function
     '''
-    permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated,IsOwnerOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
     pagination_class = DefaultPagination
