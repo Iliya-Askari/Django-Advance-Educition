@@ -7,7 +7,11 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,TokenVerifyView)
+
 class RegistrationsApiView(generics.GenericAPIView):
+    '''
+    registrations user with registrationapiview
+    '''
     serializer_class = RegistrationsSerializer
     
     def post(self, request, *args, **kwargs):
@@ -22,6 +26,9 @@ class RegistrationsApiView(generics.GenericAPIView):
 
 
 class CustomObtainAuthToken(ObtainAuthToken):
+    '''
+    obtain auth token for api access 
+    '''
     serializer_class = CoustoumAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
@@ -36,10 +43,16 @@ class CustomObtainAuthToken(ObtainAuthToken):
         })
     
 class CoutomDiscardToken(APIView):
+    '''
+    login obtain a discardtoken with the api
+    '''
     permission_classes = [IsAuthenticated]
     def post(self,request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class CustomTokenObtainPairView(TokenObtainPairView):
+    '''
+    create a jwt  for login
+    '''
     serializer_class = CoustoumTokenObtainPairSerializer

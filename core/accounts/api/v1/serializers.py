@@ -36,6 +36,9 @@ class RegistrationsSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 class CoustoumAuthTokenSerializer(serializers.Serializer):
+    '''
+    coustoum filds with show in email fields
+    '''
     email = serializers.CharField(
         label=_("Email"),
         write_only=True
@@ -73,6 +76,9 @@ class CoustoumAuthTokenSerializer(serializers.Serializer):
         return attrs
     
 class CoustoumTokenObtainPairSerializer(TokenObtainPairSerializer):
+    '''
+    create serializer for CoustoumToken and show email field
+    '''
     def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
         validated_data = super().validate(attrs)
         validated_data['email'] = self.user.email
