@@ -18,5 +18,6 @@ urlpatterns = [
     path('jwt/refresh/',TokenRefreshView.as_view(),name='jwt-refresh'),
     path('jwt/verify/',TokenVerifyView.as_view(),name='jwt-verify'),
     # change password
+    path('change-password/',views.ChangePasswordApiView.as_view(),name='change-password'),
     # reset password 
 ]

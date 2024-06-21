@@ -1,5 +1,6 @@
 from rest_framework import generics
-from .serializers import RegistrationsSerializer,CoustoumAuthTokenSerializer,CoustoumTokenObtainPairSerializer
+from .serializers import RegistrationsSerializer,CoustoumAuthTokenSerializer,CoustoumTokenObtainPairSerializer , ChangePasswordSerializer
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -56,3 +57,28 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     create a jwt  for login
     '''
     serializer_class = CoustoumTokenObtainPairSerializer
+
+class ChangePasswordApiView(generics.GenericAPIView):
+    model = get_user_model
+    permission_classes = [IsAuthenticated,]
+    serializer_class = ChangePasswordSerializer
+    def get_object(self):
+        obj = self.request.user
+        return obj
+    
+    def put(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            if not self.object.check_password(serializer.data.get('old_password')):
+                return Response({'old_password': ['Wrong  password']}, status=status.HTTP_400_BAD_REQUEST)
+            self.object.set_password(serializer.data.get('new_password'))
+            self.object.save()
+            respone = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message' : 'password updated successfully',
+                'data': []
+            }
+            return Response(respone)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
