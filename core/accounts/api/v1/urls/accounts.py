@@ -1,10 +1,8 @@
 from django.urls import path , include
 # from rest_framework.authtoken.views import ObtainAuthToken
-from . import views
+from .. import views
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,TokenVerifyView)
-
-app_name='api-v1'
 
 urlpatterns = [
     # regestrations
@@ -20,7 +18,5 @@ urlpatterns = [
     path('change-password/',views.ChangePasswordApiView.as_view(),name='change-password'),
     # reset password 
 
-    # profile
-    path('profile/',views.ProfileApiView.as_view(),name='profile'),
 
 ]
