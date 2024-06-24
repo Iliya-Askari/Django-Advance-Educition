@@ -8,4 +8,7 @@ djangorestframework
 markdown       
 django-filter  
 drf-yasg[validation]
+rest_framework_simplejwt
+coreapi
+coreschema
 # deployment modules
