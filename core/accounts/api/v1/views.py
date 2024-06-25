@@ -10,7 +10,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,TokenVerifyView)
 from accounts.models import *
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
+from mail_templated import send_mail
+from mail_templated import EmailMessage
+from ..utils import EmailThread
+
+
 class RegistrationsApiView(generics.GenericAPIView):
     '''
     registrations user with registrationapiview
@@ -95,11 +100,6 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
 
 class TestEmailSendView(APIView):
     def post(self, request, *args, **kwargs):
-        send_mail(
-            "Subject here",
-            "Here is the message.",
-            "from@example.com",
-            ["to@example.com"],
-            fail_silently=False,
-        )
+        emai_obj = EmailMessage('email/hello.tpl', {'user': 'iliya'}, "admin@1admin.com",to=['iliaaskari@gmail.com'])
+        EmailThread(emai_obj).start()
         return Response('test email')
