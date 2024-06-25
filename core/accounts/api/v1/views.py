@@ -93,7 +93,7 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset, user=self.request.user)
         return obj
 
-class TestEmailSendView(generics.GenericAPIView):
+class TestEmailSendView(APIView):
     def post(self, request, *args, **kwargs):
         send_mail(
             "Subject here",
