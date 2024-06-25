@@ -83,6 +83,8 @@ class CoustoumTokenObtainPairSerializer(TokenObtainPairSerializer):
     '''
     def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
         validated_data = super().validate(attrs)
+        if not self.user.is_verified:
+                raise serializers.ValidationError({'details':'user is not verified'})
         validated_data['email'] = self.user.email
         return validated_data
 
