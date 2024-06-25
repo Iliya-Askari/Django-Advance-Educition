@@ -12,3 +12,6 @@ rest_framework_simplejwt
 coreapi
 coreschema
 # deployment modules
+
+# email third party modules
+django-mail-templated
