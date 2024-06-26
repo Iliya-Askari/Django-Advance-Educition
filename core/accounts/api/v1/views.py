@@ -14,7 +14,7 @@ from accounts.models import *
 from mail_templated import send_mail
 from mail_templated import EmailMessage
 from ..utils import EmailThread
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class RegistrationsApiView(generics.GenericAPIView):
     '''
@@ -99,7 +99,16 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         return obj
 
 class TestEmailSendView(APIView):
-    def post(self, request, *args, **kwargs):
-        emai_obj = EmailMessage('email/hello.tpl', {'user': 'iliya'}, "admin@1admin.com",to=['iliaaskari@gmail.com'])
+   
+    def get(self, request, *args, **kwargs):
+        self.email = 'admin@1admin.com'
+        user_obj = get_object_or_404(User, email = self.email)
+        token = self.get_tokens_for_user(user_obj)
+        emai_obj = EmailMessage('email/hello.tpl', {'token': token}, "user@example.com",to=[self.email])
         EmailThread(emai_obj).start()
         return Response('test email')
+    
+    def get_tokens_for_user(self , user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
+        
