@@ -103,6 +103,9 @@ class ChangePasswordApiView(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileApiView(generics.RetrieveUpdateAPIView):
+    '''
+    show detail profile
+    '''
     serializer_class = ProfileApiSerializer
     queryset = Profile.objects.all()
 
@@ -111,8 +114,10 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset, user=self.request.user)
         return obj
 
-class TestEmailSendView(APIView):
-   
+"""class TestEmailSendView(APIView):
+    '''
+    send email for test account
+    '''
     def get(self, request, *args, **kwargs):
         self.email = 'admin@1admin.com'
         user_obj = get_object_or_404(User, email = self.email)
@@ -123,9 +128,12 @@ class TestEmailSendView(APIView):
     
     def get_tokens_for_user(self , user):
         refresh = RefreshToken.for_user(user)
-        return str(refresh.access_token)
+        return str(refresh.access_token)"""
 
 class ActivationsConfirmApiView(APIView):
+    '''
+    activate your account with email confirmation
+    '''
     def get (self, request, token ,*args, **kwargs):
         try:
             token = jwt.decode(token, config('SECRET_KEY'), algorithms=["HS256"])
@@ -142,6 +150,9 @@ class ActivationsConfirmApiView(APIView):
         return Response({'details':'your account been verified and activateions successfuly'})
     
 class ActivationsRecendApiView(generics.GenericAPIView):
+    '''
+    send your email for verification
+    '''
     serializer_class = ActivsionRecendSerializer
 
     def post(self ,request, *args,**kwargs):

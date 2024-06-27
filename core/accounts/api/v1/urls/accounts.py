@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView
 urlpatterns = [
     # regestrations
     path('registrations/',views.RegistrationsApiView.as_view(),name='registrations'),
-    path('test-email/',views.TestEmailSendView.as_view(),name='test-email'),
+    # path('test-email/',views.TestEmailSendView.as_view(),name='test-email'),
 
     # activitions
     path('activations/confirm/<str:token>',views.ActivationsConfirmApiView.as_view(),name='activations'),
