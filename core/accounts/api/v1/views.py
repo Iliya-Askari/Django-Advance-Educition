@@ -15,6 +15,10 @@ from mail_templated import send_mail
 from mail_templated import EmailMessage
 from ..utils import EmailThread
 from rest_framework_simplejwt.tokens import RefreshToken
+import jwt
+from jwt.exceptions import ExpiredSignatureError , InvalidSignatureError
+
+from decouple import config
 
 class RegistrationsApiView(generics.GenericAPIView):
     '''
@@ -26,11 +30,20 @@ class RegistrationsApiView(generics.GenericAPIView):
         serializer = RegistrationsSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
+            email = serializer.validated_data['email']
             data = {
-                'email':serializer.validated_data['email']
+                'email': email
             }
+            user_obj = get_object_or_404(User, email = email)
+            token = self.get_tokens_for_user(user_obj)
+            emai_obj = EmailMessage('email/activision_email.tpl', {'token': token}, "user@example.com",to=[email])
+            EmailThread(emai_obj).start()
             return Response(data , status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def get_tokens_for_user(self , user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
 
 class CustomObtainAuthToken(ObtainAuthToken):
     '''
@@ -111,4 +124,36 @@ class TestEmailSendView(APIView):
     def get_tokens_for_user(self , user):
         refresh = RefreshToken.for_user(user)
         return str(refresh.access_token)
-        
+
+class ActivationsConfirmApiView(APIView):
+    def get (self, request, token ,*args, **kwargs):
+        try:
+            token = jwt.decode(token, config('SECRET_KEY'), algorithms=["HS256"])
+            user_id = token.get('user_id')
+        except ExpiredSignatureError:
+            return Response({'details':'token has been expired'},status=status.HTTP_400_BAD_REQUEST)
+        except InvalidSignatureError:
+            return Response({'details':'token is invalid'},status=status.HTTP_400_BAD_REQUEST)
+        user_obj = User.objects.get(pk = user_id)
+        if user_obj.is_verified:
+            return Response({'details':'your account already been verified'})
+        user_obj.is_verified = True
+        user_obj.save()
+        return Response({'details':'your account been verified and activateions successfuly'})
+    
+class ActivationsRecendApiView(generics.GenericAPIView):
+    serializer_class = ActivsionRecendSerializer
+
+    def post(self ,request, *args,**kwargs):
+        serializer = ActivsionRecendSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user_obj = serializer.validated_data['user']
+        token = self.get_tokens_for_user(user_obj)
+        emai_obj = EmailMessage('email/activision_email.tpl', {'token': token}, "user@example.com",to=[user_obj.email])
+        EmailThread(emai_obj).start()
+        return Response({'details':'user activision recend successfully'})
+
+
+    def get_tokens_for_user(self , user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)

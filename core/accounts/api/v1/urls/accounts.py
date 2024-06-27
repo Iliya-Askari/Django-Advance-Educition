@@ -10,10 +10,10 @@ urlpatterns = [
     path('test-email/',views.TestEmailSendView.as_view(),name='test-email'),
 
     # activitions
-    # path('activations/confirm/',views.ActivationsConfirmView.as_view(),name='activations'),
+    path('activations/confirm/<str:token>',views.ActivationsConfirmApiView.as_view(),name='activations'),
 
     # recend activations
-    # path('activations/recend/',views.ActivationsConfirmView.as_view(),name='activations'),
+    path('activations/recend/',views.ActivationsRecendApiView.as_view(),name='activation-recend'),
 
     # login token
     path('token/login/',views.CustomObtainAuthToken.as_view(),name='token-login'),
