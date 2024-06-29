@@ -16,11 +16,11 @@ urlpatterns = [
     path('activations/recend/',views.ActivationsRecendApiView.as_view(),name='activation-recend'),
 
     # login token
-    path('token/login/',views.CustomObtainAuthToken.as_view(),name='token-login'),
-    path('token/logout/',views.CoutomDiscardToken.as_view(),name='token-logout'),
+    path('token/login/',views.CustomLoginTokenApiView.as_view(),name='token-login'),
+    path('token/logout/',views.CoutomLogoutTokenApiView.as_view(),name='token-logout'),
 
     # login jwt
-    path('jwt/create/',views.CustomTokenObtainPairView.as_view(),name='jwt-create'),
+    path('jwt/create/',views.CustomCreateJwtApiView.as_view(),name='jwt-create'),
     path('jwt/refresh/',TokenRefreshView.as_view(),name='jwt-refresh'),
     path('jwt/verify/',TokenVerifyView.as_view(),name='jwt-verify'),
     

@@ -4,7 +4,6 @@ from accounts.models import User , Profile
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
-from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainSerializer , TokenObtainPairSerializer
 class RegistrationsSerializer(serializers.ModelSerializer):
     '''
@@ -35,7 +34,7 @@ class RegistrationsSerializer(serializers.ModelSerializer):
         validated_data.pop('password2', None)
         return User.objects.create_user(**validated_data)
 
-class CoustoumAuthTokenSerializer(serializers.Serializer):
+class CustomLoginTokenSerializer(serializers.Serializer):
     '''
     coustoum filds with show in email fields
     '''
@@ -77,7 +76,7 @@ class CoustoumAuthTokenSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
     
-class CoustoumTokenObtainPairSerializer(TokenObtainPairSerializer):
+class CustomCreateJwtSerializer(TokenObtainPairSerializer):
     '''
     create serializer for CoustoumToken and show email field
     '''

@@ -45,11 +45,11 @@ class RegistrationsApiView(generics.GenericAPIView):
         refresh = RefreshToken.for_user(user)
         return str(refresh.access_token)
 
-class CustomObtainAuthToken(ObtainAuthToken):
+class CustomLoginTokenApiView(ObtainAuthToken):
     '''
     obtain auth token for api access 
     '''
-    serializer_class = CoustoumAuthTokenSerializer
+    serializer_class = CustomLoginTokenSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,context={'request': request})
@@ -62,7 +62,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
             'email': user.email
         })
     
-class CoutomDiscardToken(APIView):
+class CoutomLogoutTokenApiView(APIView):
     '''
     login obtain a discardtoken with the api
     '''
@@ -71,11 +71,11 @@ class CoutomDiscardToken(APIView):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class CustomTokenObtainPairView(TokenObtainPairView):
+class CustomCreateJwtApiView(TokenObtainPairView):
     '''
     create a jwt  for login
     '''
-    serializer_class = CoustoumTokenObtainPairSerializer
+    serializer_class = CustomCreateJwtSerializer
 
 class ChangePasswordApiView(generics.GenericAPIView):
     model = get_user_model
