@@ -21,7 +21,12 @@ class CustomUserAdmin(UserAdmin):
         (
             "Permissions",
             {
-                "fields": ("is_staff", "is_active", "is_superuser", "is_verified"),
+                "fields": (
+                    "is_staff",
+                    "is_active",
+                    "is_superuser",
+                    "is_verified",
+                ),
             },
         ),
         (

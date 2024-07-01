@@ -11,7 +11,11 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     # regestrations
-    path("registrations/", views.RegistrationsApiView.as_view(), name="registrations"),
+    path(
+        "registrations/",
+        views.RegistrationsApiView.as_view(),
+        name="registrations",
+    ),
     # path('test-email/',views.TestEmailSendView.as_view(),name='test-email'),
     # activitions
     path(
@@ -26,12 +30,22 @@ urlpatterns = [
         name="activation-recend",
     ),
     # login token
-    path("token/login/", views.CustomLoginTokenApiView.as_view(), name="token-login"),
     path(
-        "token/logout/", views.CoutomLogoutTokenApiView.as_view(), name="token-logout"
+        "token/login/",
+        views.CustomLoginTokenApiView.as_view(),
+        name="token-login",
+    ),
+    path(
+        "token/logout/",
+        views.CoutomLogoutTokenApiView.as_view(),
+        name="token-logout",
     ),
     # login jwt
-    path("jwt/create/", views.CustomCreateJwtApiView.as_view(), name="jwt-create"),
+    path(
+        "jwt/create/",
+        views.CustomCreateJwtApiView.as_view(),
+        name="jwt-create",
+    ),
     path("jwt/refresh/", TokenRefreshView.as_view(), name="jwt-refresh"),
     path("jwt/verify/", TokenVerifyView.as_view(), name="jwt-verify"),
     # change password
