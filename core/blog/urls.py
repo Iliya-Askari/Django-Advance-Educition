@@ -1,7 +1,5 @@
 from django.urls import path, include
 from . import views
-from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
 
 app_name = "blog"
 urlpatterns = [
@@ -14,13 +12,9 @@ urlpatterns = [
     # path("go-to-digi/<int:pk>/",views.RedirectTodigi.as_view(),name="redirect-to-digi"),
     # post view
     path("post/", views.Postlistview.as_view(), name="post-list"),
-    path(
-        "post/<int:pk>/", views.PostDetailview.as_view(), name="post-detail"
-    ),
+    path("post/<int:pk>/", views.PostDetailview.as_view(), name="post-detail"),
     path("post/create/", views.PostCreateview.as_view(), name="post-create"),
-    path(
-        "post/<int:pk>/edit", views.PostEditview.as_view(), name="post-edit"
-    ),
+    path("post/<int:pk>/edit", views.PostEditview.as_view(), name="post-edit"),
     path(
         "post/<int:pk>/delete",
         views.PostDeleteview.as_view(),

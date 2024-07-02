@@ -1,28 +1,8 @@
 from rest_framework.permissions import (
     IsAuthenticated,
-    IsAdminUser,
-    IsAuthenticatedOrReadOnly,
 )
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from .serializers import PostSerializer, CtegorySerializer
 from blog.models import Post, Category
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from rest_framework.generics import (
-    GenericAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
-
-# from rest_framework import mixins
-from rest_framework.mixins import (
-    ListModelMixin,
-    CreateModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin,
-)
 from rest_framework import viewsets
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
