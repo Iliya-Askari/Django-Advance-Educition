@@ -13,5 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Test Output
-      run: false
+    - name: SetUp Docker-Compose
+      run: docker-compose up -d
+    - name : Run Test
+      run : docker-compose exec backend sh -c "falke8 && pytest ."      
