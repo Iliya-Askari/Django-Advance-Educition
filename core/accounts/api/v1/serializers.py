@@ -5,7 +5,6 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.serializers import (
-    TokenObtainSerializer,
     TokenObtainPairSerializer,
 )
 

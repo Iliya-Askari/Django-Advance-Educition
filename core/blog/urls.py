@@ -4,7 +4,7 @@ from . import views
 app_name = "blog"
 urlpatterns = [
     # fbv
-    path('', views.IndexView.as_view(),name='fbv-test'),
+    path("", views.IndexView.as_view(), name="fbv-test"),
     # path("go-to-index",views.redirectTodigi,name="redirect-to-index"),
     # cbv
     # path("about/", TemplateView.as_view(template_name="index.html")),

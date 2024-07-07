@@ -74,7 +74,7 @@ class Postlistview(ListView):
     #     return posts
 
 
-class PostDetailview(LoginRequiredMixin,DetailView):
+class PostDetailview(LoginRequiredMixin, DetailView):
     """
     a class based view to detail post
     """
