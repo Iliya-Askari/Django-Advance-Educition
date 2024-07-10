@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "mail_templated",
     "djoser",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -177,3 +179,6 @@ EMAIL_HOST = "smtp4dev"
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 25
+
+
+CORS_ALLOW_ALL_ORIGINS = True

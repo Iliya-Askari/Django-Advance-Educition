@@ -1,5 +1,6 @@
 from rest_framework.permissions import (
     IsAuthenticated,
+    IsAuthenticatedOrReadOnly
 )
 from .serializers import PostSerializer, CtegorySerializer
 from blog.models import Post, Category
@@ -223,10 +224,10 @@ class PostModelViewset(viewsets.ModelViewSet):
     This class performs all related operations for posts based on view set model without defining the function
     """
 
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     queryset = Post.objects.filter(status=True)
     serializer_class = PostSerializer
-    pagination_class = DefaultPagination
+    # pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = {"category": ["exact", "in"], "author": ["exact"]}
     search_fields = ["title", "content"]
