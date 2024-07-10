@@ -73,7 +73,8 @@ class Postlistview(ListView):
     #     posts = Post.objects.filter(status=True)
     #     return posts
 
-
+class PostListApiView(TemplateView):
+    template_name = "blog/post_list_api.html"
 class PostDetailview(LoginRequiredMixin, DetailView):
     """
     a class based view to detail post
