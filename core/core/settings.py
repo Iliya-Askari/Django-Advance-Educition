@@ -184,3 +184,10 @@ EMAIL_PORT = 25
 CORS_ALLOW_ALL_ORIGINS = True
 
 CELERY_BROKER_URL = "redis://redis:6379/1"
+
+CELERY_BEAT_SCHEDULE = {
+    'send-email' : {
+        'task':'accounts.tasks.send_emai',
+        'schedule':5
+    }
+}
