@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "mail_templated",
     "djoser",
-    "corsheaders"
+    "corsheaders",
+    "django_celery_beat"
 ]
 
 MIDDLEWARE = [
