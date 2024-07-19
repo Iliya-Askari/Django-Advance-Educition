@@ -15,8 +15,8 @@ services:
     command: gunicorn -c /app/gunicorn.conf.py core.wsgi:application
     volumes:
       - ./core:/app
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - SECRET_KEY=test
       - DEBUG=False
@@ -38,6 +38,8 @@ services:
     restart: always
     ports:
       - "80:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - redis
       - backend
